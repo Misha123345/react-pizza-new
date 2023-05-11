@@ -1,0 +1,62 @@
+@use "../../scss/variables";
+
+.search {
+  padding: 0.4em 0.8em;
+  border-radius: 25px;
+  border: 2px solid variables.$black;
+  opacity: 0.8;
+  display: flex;
+  justify-content: space-between;
+  caret-color: variables.$black;
+  transition: all 0.2s ease-out;
+
+  &:focus-within {
+    opacity: 1;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
+}
+
+.searchIcon,
+.searchClear {
+  width: 25px;
+}
+
+.searchClear {
+  cursor: pointer;
+  opacity: 0.8;
+  transform: scale(0.9);
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+}
+
+input[type="text"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+input[type="text"]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
