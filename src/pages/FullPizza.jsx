@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
-import { useParams } from 'react-router'
-import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const FullPizza = () => {
   const { id }  = useParams()
   const [pizza, setPizza] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     axios.get(`https://6439579c4660f26eb1b08e62.mockapi.io/pizzas/${id}`)
     .then(response => response.data)
     .then(data => setPizza(data))
-  }, [id])
+    .catch(() => {
+      alert("Пицца не найдена")
+      navigate("/")
+    })
+  }, [id, navigate])
 
   if (!pizza) {
     return (
