@@ -1,0 +1,37 @@
+.fullpizza-img {
+  display: block;
+  margin: 50px auto 30px auto;
+  width: 40%;
+}
+
+.fullpizza-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.fullpizza-name {
+  font-size: inherit;
+}
+
+.fullpizza-ingredients-list {
+  text-align: center;
+}
+
+.fullpizza-back-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #a7a7a7;
+  transition: all 0.15s ease-out;
+
+  &:hover {
+    color: #484848;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}

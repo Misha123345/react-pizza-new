@@ -3,8 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { setCategoryId } from "../redux/slices/filterSlice";
 
+
 const Categories = () => {
-  const categoryId = useSelector((state) => state.filters.categoryId);
+  const categoryId = useSelector(state => state.filters.categoryId);
   const dispatch = useDispatch();
 
   return (

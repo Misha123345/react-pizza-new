@@ -7,7 +7,8 @@ import searchImg from "../../assets/img/search.png";
 import { changeSearch, clearSearch } from "../../redux/slices/filterSlice";
 
 const Search = () => {
-  const searchValue = useSelector((state) => state.filters.searchValue);
+  const searchValue = useSelector((state) => state.filters.searchValue)
+
   const dispatch = useDispatch();
 
   const inputRef = useRef(null);
