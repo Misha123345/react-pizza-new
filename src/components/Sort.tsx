@@ -1,17 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { setSelectedSort } from "../redux/slices/filterSlice";
+import { SortVariants, setSelectedSort } from "../redux/slices/filterSlice";
+
+enum SortEnum {
+  RATING = 'rating',
+  PRICE = 'price',
+  NAME = 'name'
+}
 
 const sortsArr = ["популярности", "цене", "алфавиту"];
-const indexMap = new Map();
-indexMap.set("rating", 0);
-indexMap.set("price", 1);
-indexMap.set("name", 2);
+const indexMap = new Map<string, number>();
+indexMap.set(SortEnum.RATING, 0);
+indexMap.set(SortEnum.PRICE, 1);
+indexMap.set(SortEnum.NAME, 2);
 
-function Sort() {
-  const selectedSort = useSelector((state) => state.filters.selectedSort);
-  const sortRef = useRef();
+type SortProps = {
+  selectedSort: SortVariants
+}
+
+const Sort: React.FC<SortProps> = React.memo(({ selectedSort }) => {
+  const sortRef = useRef<HTMLDivElement>(null);
 
   const [isPopupActive, setIsPopupActive] = useState(false);
   const [activeSort, setActiveSort] = useState(sortsArr[0]);
@@ -19,13 +28,13 @@ function Sort() {
 
   useEffect(() => {
     const sortIndex = indexMap.get(selectedSort);
-    setActiveSort(sortsArr[sortIndex]);
+    setActiveSort(sortsArr[sortIndex as number]);
   }, [selectedSort]);
 
   // close popup when click is outside of it
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (event.target.closest(".sort") !== sortRef.current) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if ((event.target as HTMLBodyElement).closest(".sort") !== sortRef.current) {
         setIsPopupActive(false);
       }
     };
@@ -33,20 +42,22 @@ function Sort() {
     return () => document.body.removeEventListener("click", handleClickOutside);
   }, []);
 
-  function handleClick(sortName) {
-    let sortQuery;
+  function handleClick(sortName: string) {
+    
+    let sortQuery: SortVariants;
 
     switch (sortsArr.indexOf(sortName)) {
       case 0:
-        sortQuery = "rating";
+        sortQuery = SortEnum.RATING;
         break;
       case 1:
-        sortQuery = "price";
+        sortQuery = SortEnum.PRICE;
         break;
       case 2:
-        sortQuery = "name";
+        sortQuery = SortEnum.NAME;
         break;
       default:
+        sortQuery = SortEnum.RATING
         break;
     }
 
@@ -95,6 +106,6 @@ function Sort() {
       </div>
     </div>
   );
-}
+})
 
 export default Sort;

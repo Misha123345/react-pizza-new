@@ -6,9 +6,9 @@ import pizzaLogo from "../assets/img/pizza-logo.svg";
 import Search from "./Search/Search";
 import { selectCart } from "../redux/slices/cartSlice";
 
-function Header({ searchValue, setSearchValue }) {
+const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
-  const totalItems = items.reduce((acc, item) => (acc += item.count), 0);
+  const totalItems = items.reduce((acc: number, item: any) => (acc += item.count), 0);
   const { pathname } = useLocation()
 
   return (
@@ -21,7 +21,7 @@ function Header({ searchValue, setSearchValue }) {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </Link>
-        {pathname !== "/cart" && <><Search searchValue={searchValue} setSearchValue={setSearchValue} />
+        {pathname !== "/cart" && <><Search/>
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>{totalPrice} ₽</span>

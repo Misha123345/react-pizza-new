@@ -1,9 +1,20 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import clsx from "clsx";
 
-import { removeItem, addItem, minusItem } from "../redux/slices/cartSlice";
+import { removeItem, addItem, minusItem, CartSliceItem } from "../redux/slices/cartSlice";
 
-const CartItem = ({ id, name, imageUrl, type, size, count, price }) => {
+export type CartItemProps = {
+  id: string;
+  name: string;
+  imageUrl: string;
+  type: string;
+  size: number;
+  count: number;
+  price: number;
+}
+
+const CartItem: React.FC<CartItemProps> = ({ id, name, imageUrl, type, size, count, price }) => {
   const dispatch = useDispatch();
 
   function plusOneItem() {
@@ -13,9 +24,23 @@ const CartItem = ({ id, name, imageUrl, type, size, count, price }) => {
         type,
         size,
         price,
-      }),
+        count,
+      } as CartSliceItem),
     );
   }
+  
+  function minusOneItem() {
+    if (count > 1) {
+    dispatch(
+      minusItem({
+        id,
+        type,
+        size,
+        price,
+        count,
+      } as CartSliceItem),
+    );
+  }}
 
   return (
     <div className="cart__item">
@@ -28,8 +53,9 @@ const CartItem = ({ id, name, imageUrl, type, size, count, price }) => {
       </div>
       <div className="cart__item-count">
         <button
-          onClick={() => dispatch(minusItem({ id, type, size, price }))}
-          className="button button--outline button--circle cart__item-count-minus"
+        disabled={count === 1}
+          onClick={minusOneItem}
+          className={clsx("button button--outline button--circle cart__item-count-minus", { "cart__item-count-minus--disabled": count === 1})}
         >
           <svg
             width="10"
@@ -79,9 +105,13 @@ const CartItem = ({ id, name, imageUrl, type, size, count, price }) => {
           onClick={() =>
             dispatch(
               removeItem({
-                id: id,
-                type: type,
-                size: size,
+                id,
+                type,
+                size,
+                price,
+                name,
+                count,
+                imageUrl
               }),
             )
           }

@@ -3,9 +3,14 @@ import axios from "axios"
 import { useParams } from 'react-router-dom'
 import { Link, useNavigate } from 'react-router-dom'
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
   const { id }  = useParams()
-  const [pizza, setPizza] = useState()
+  const [pizza, setPizza] = useState<{
+    imageUrl: string,
+    name: string,
+    price: number,
+    ingridients: string[]
+  }>()
   const navigate = useNavigate()
 
   useEffect(() => {

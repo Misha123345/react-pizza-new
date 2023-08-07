@@ -1,17 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearItems, selectCart } from "../redux/slices/cartSlice";
 import CartItem from "../components/CartItem";
 import CartEmpty from "../components/cartEmpty";
+import Modal from "../components/Modal";
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
-  const totalItems = items.reduce((acc, item) => (acc += item.count), 0);
+  const totalItems = items.reduce((acc: number, item: any) => (acc += item.count as number), 0);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const navigate = useNavigate()
 
   if (!items.length) {
     return <CartEmpty />;
+  }
+
+  function onModalButtonClick () {
+    dispatch(clearItems())
+    navigate("/")
   }
 
   return (
@@ -94,7 +102,7 @@ const Cart = () => {
           </button>
         </div>
         <div className="content__items">
-          {items.map((item) => (
+          {items.map((item: any) => (
             <CartItem key={`${item.id} ${item.type} ${item.size}`} {...item} />
           ))}
         </div>
@@ -130,9 +138,13 @@ const Cart = () => {
 
               <span>Вернуться назад</span>
             </Link>
-            <div className="button pay-btn">
+            <button className="button pay-btn" onClick={() => setIsModalOpen(true)}>
               <span>Оплатить сейчас</span>
-            </div>
+            </button>
+            <Modal 
+              isOpen={isModalOpen} 
+              onButtonClick={onModalButtonClick}
+              />
           </div>
         </div>
       </div>

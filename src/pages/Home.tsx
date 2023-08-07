@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef, useCallback} from "react";
+import { useSelector} from "react-redux";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
@@ -15,13 +15,14 @@ import {
   initialState,
   selectFilters,
 } from "../redux/slices/filterSlice";
+import { useAppDispatch } from "../redux/store";
 
-const Home = () => {
+const Home: React.FC = () => {
   const { searchValue, categoryId, selectedSort, currentPage } = useSelector(
     selectFilters
   );
-  const { items, status } = useSelector((state) => state.pizzas);
-  const dispatch = useDispatch();
+  const { items, status } = useSelector((state: any) => state.pizzas);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [totalPages, setTotalPages] = useState(3);
@@ -31,18 +32,17 @@ const Home = () => {
   const isMounted = useRef(false);
 
   // функція запросу піц
-  async function getPizzas() {
+  const getPizzas = useCallback(async () => {
     const url = "https://6439579c4660f26eb1b08e62.mockapi.io/pizzas";
-
     const params = {
       category: categoryId === 0 ? "" : categoryId,
       sortBy: selectedSort,
       page: currentPage + 1,
       limit: 4,
-    };
+    }
+      dispatch(fetchPizzas({ url, params }));
+  }, [categoryId, currentPage, dispatch, selectedSort])
 
-    dispatch(fetchPizzas({ url, params }));
-  }
 
   // сканує УРЛ і якщо там є параметри, то зберігає їх в обєкт, є провірка на співпадіння з інітіалСтейт(Костиль) і забороняє на цьому рендері запрошувати піци
   useEffect(() => {
@@ -55,11 +55,11 @@ const Home = () => {
       ) {
         getPizzas();
       }
-      dispatch(setFilters(params));
+      dispatch(setFilters(Object(params)));
       isSearch.current = true;
     }
-    // eslint-disable-next-line
-  }, []);
+    //eslint-disable-next-line
+  }, [dispatch]);
 
   // Запрошує піци якщо ісСьорч фолз і не запрошує якщо тру
   useEffect(() => {
@@ -75,9 +75,8 @@ const Home = () => {
     }
 
     isSearch.current = false;
-
-    // eslint-disable-next-line
-  }, [categoryId, selectedSort, currentPage]);
+    //eslint-disable-next-line 
+  }, [categoryId, selectedSort, currentPage, dispatch,]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -100,13 +99,13 @@ const Home = () => {
   }, [categoryId, selectedSort, currentPage, navigate]);
 
   const pizzas = items
-    .filter((item) => {
+    .filter((item: any) => {
       if (item.name.toLowerCase().includes(searchValue.toLowerCase().trim())) {
         return true;
       }
       return false;
     })
-    .map((pizza) => {
+    .map((pizza: any) => {
       return <PizzaBlock key={pizza.id} {...pizza} />
     });
 
@@ -114,7 +113,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories />
-        <Sort />
+        <Sort selectedSort={selectedSort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (

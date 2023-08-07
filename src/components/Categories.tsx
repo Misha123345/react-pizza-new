@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCategoryId } from "../redux/slices/filterSlice";
 
 
-const Categories = () => {
-  const categoryId = useSelector(state => state.filters.categoryId);
+const Categories: React.FC = React.memo(() => {
+  const categoryId = useSelector((state: any) => state.filters.categoryId);
   const dispatch = useDispatch();
 
   return (
@@ -27,9 +27,14 @@ const Categories = () => {
       </ul>
     </div>
   );
-};
+})
 
-const categoriesArr = [
+type CategoriesItem = {
+  id: number; 
+  name: string;
+}
+
+const categoriesArr: CategoriesItem[] = [
   { id: 0, name: "Все" },
   { id: 1, name: "Мясные" },
   { id: 2, name: "Вегетерианские" },

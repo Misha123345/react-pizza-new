@@ -7,11 +7,11 @@ import searchImg from "../../assets/img/search.png";
 import { changeSearch, clearSearch } from "../../redux/slices/filterSlice";
 
 const Search = () => {
-  const searchValue = useSelector((state) => state.filters.searchValue)
+  const searchValue = useSelector((state: any) => state.filters.searchValue)
 
   const dispatch = useDispatch();
 
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className={styles.search}>
@@ -29,7 +29,7 @@ const Search = () => {
         <svg
           className={styles.searchClear}
           onClick={() => {
-            inputRef.current.focus();
+            inputRef.current?.focus();
             dispatch(clearSearch());
           }}
           data-name="Capa 1"
