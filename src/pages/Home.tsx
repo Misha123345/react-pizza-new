@@ -8,14 +8,14 @@ import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaSkeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
-import { fetchPizzas } from "../redux/slices/pizzasSlice";
 import {
   setCurrentPage,
   setFilters,
   initialState,
-  selectFilters,
-} from "../redux/slices/filterSlice";
+} from "../redux/slices/filter/slice";
 import { useAppDispatch } from "../redux/store";
+import { selectFilters } from "../redux/slices/filter/selectors";
+import { fetchPizzas } from "../redux/slices/pizzas/slice";
 
 const Home: React.FC = () => {
   const { searchValue, categoryId, selectedSort, currentPage } = useSelector(

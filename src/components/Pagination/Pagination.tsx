@@ -2,8 +2,8 @@ import React from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 
-import {setCurrentPage } from "../../redux/slices/filterSlice";
 import styles from "./Pagination.module.scss";
+import { setCurrentPage } from "../../redux/slices/filter/slice";
 
 type PaginationProps = {
   totalPages: number;

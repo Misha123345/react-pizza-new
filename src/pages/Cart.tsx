@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearItems, selectCart } from "../redux/slices/cartSlice";
+import { clearItems } from "../redux/slices/cart/slice";
 import CartItem from "../components/CartItem";
 import CartEmpty from "../components/cartEmpty";
 import Modal from "../components/Modal";
+import { selectCart } from "../redux/slices/cart/selectors";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();

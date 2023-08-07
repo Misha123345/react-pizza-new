@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-
-import { SortVariants, setSelectedSort } from "../redux/slices/filterSlice";
+import { SortVariants } from "../redux/slices/filter/types";
+import { setSelectedSort } from "../redux/slices/filter/slice";
 
 enum SortEnum {
   RATING = 'rating',

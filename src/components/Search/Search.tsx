@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./Search.module.scss";
 import searchImg from "../../assets/img/search.png";
-import { changeSearch, clearSearch } from "../../redux/slices/filterSlice";
+import { changeSearch, clearSearch } from "../../redux/slices/filter/slice";
 
 const Search = () => {
   const searchValue = useSelector((state: any) => state.filters.searchValue)
